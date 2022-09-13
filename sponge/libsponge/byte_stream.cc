@@ -1,4 +1,6 @@
 #include "byte_stream.hh"
+#include <iostream>
+
 
 // Dummy implementation of a flow-controlled in-memory byte stream.
 
@@ -7,47 +9,61 @@
 
 // You will need to add private members to the class declaration in `byte_stream.hh`
 
-template <typename... Targs>
-void DUMMY_CODE(Targs &&... /* unused */) {}
-
 using namespace std;
 
-ByteStream::ByteStream(const size_t capacity) { DUMMY_CODE(capacity); }
+ByteStream::ByteStream(const size_t capacity)
+    : _que(), _capacity(capacity), _read_total(0), _write_total(0), _is_eof(false) {}
 
 size_t ByteStream::write(const string &data) {
-    DUMMY_CODE(data);
-    return {};
+    if (this->_is_eof) {
+        return 0;
+    }
+    for (size_t i = 0; i < data.length(); i++) {
+        if (this->_que.size() == this->_capacity) {
+            return i;
+        }
+        this->_que.push_back(data[i]);
+        this->_write_total++;
+    }
+    return data.length();
 }
 
 //! \param[in] len bytes will be copied from the output side of the buffer
 string ByteStream::peek_output(const size_t len) const {
-    DUMMY_CODE(len);
-    return {};
+    size_t peek_size = min(len, this->_que.size());
+    return string(this->_que.begin(), this->_que.begin() + peek_size);
 }
 
 //! \param[in] len bytes will be removed from the output side of the buffer
-void ByteStream::pop_output(const size_t len) { DUMMY_CODE(len); }
+void ByteStream::pop_output(const size_t len) {
+    size_t pop_size = min(len, this->_que.size());
+    this->_read_total += len;
+    while (pop_size--) {
+        this->_que.pop_front();
+    }
+}
 
 //! Read (i.e., copy and then pop) the next "len" bytes of the stream
 //! \param[in] len bytes will be popped and returned
 //! \returns a string
 std::string ByteStream::read(const size_t len) {
-    DUMMY_CODE(len);
-    return {};
+    string str = peek_output(len);
+    pop_output(len);
+    return str;
 }
 
-void ByteStream::end_input() {}
+void ByteStream::end_input() { this->_is_eof = true; }
 
-bool ByteStream::input_ended() const { return {}; }
+bool ByteStream::input_ended() const { return this->_is_eof; }
 
-size_t ByteStream::buffer_size() const { return {}; }
+size_t ByteStream::buffer_size() const { return this->_que.size(); }
 
-bool ByteStream::buffer_empty() const { return {}; }
+bool ByteStream::buffer_empty() const { return this->_que.empty(); }
 
-bool ByteStream::eof() const { return false; }
+bool ByteStream::eof() const { return this->_is_eof && this->_que.empty(); }
 
-size_t ByteStream::bytes_written() const { return {}; }
+size_t ByteStream::bytes_written() const { return this->_write_total; }
 
-size_t ByteStream::bytes_read() const { return {}; }
+size_t ByteStream::bytes_read() const { return this->_read_total; }
 
-size_t ByteStream::remaining_capacity() const { return {}; }
+size_t ByteStream::remaining_capacity() const { return this->_capacity - this->_que.size(); }
