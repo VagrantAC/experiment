@@ -2,3 +2,5 @@ sponge/.cache/*
 
 sponge/build/*
 
+**/target/
+
