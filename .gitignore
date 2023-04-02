@@ -4,3 +4,4 @@ sponge/build/*
 
 **/target/
 
+**/.vscode/
