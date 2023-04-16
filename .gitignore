@@ -1,7 +1,7 @@
-sponge/.cache/*
-
-sponge/build/*
-
 **/target/
 
 **/.vscode/
+
+**/build/
+
+**/.cache/
