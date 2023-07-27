@@ -23,7 +23,7 @@ func NewCgroupManager(cgroupName string) *CgroupManager {
 }
 
 func (c *CgroupManager) Apply(pid int) error {
-	cgroupPath, err := resource.GetCgroup2Path(c.Hierarchy(), true)
+	cgroupPath, err := resource.GetCgroup2Path(fmt.Sprintf("%s-%s", c.Hierarchy(), c.CgroupName), true)
 	if err != nil {
 		return err
 	}

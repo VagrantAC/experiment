@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"mydocker/cgroups2/resource"
 	"mydocker/container"
 
 	log "github.com/sirupsen/logrus"
@@ -21,11 +22,19 @@ var runCommand = cli.Command{
 		if len(context.Args()) < 1 {
 			return fmt.Errorf("Missing container command")
 		}
-		cmd := context.Args().Get(0)
+		var cmdArray []string
+		for _, arg := range context.Args() {
+			cmdArray = append(cmdArray, arg)
+		}
 		tty := context.Bool("ti")
-		Run(tty, cmd)
+		resConf := &resource.ResourceConfig{
+			MemoryMax:  context.String("memoryMax"),
+			MemoryHigh: context.String("memoryHigh"),
+			CpuWeight:  context.String("cpuWeight"),
+			CpuSetCpus: context.String("cpuSetCpus"),
+		}
+		Run(tty, cmdArray, resConf)
 		return nil
-
 	},
 }
 
