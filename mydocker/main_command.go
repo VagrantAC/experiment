@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"mydocker/cgroups2/resource"
+	// "mydocker/cgroups2/resource"
 	"mydocker/container"
 
 	log "github.com/sirupsen/logrus"
@@ -27,13 +27,13 @@ var runCommand = cli.Command{
 			cmdArray = append(cmdArray, arg)
 		}
 		tty := context.Bool("ti")
-		resConf := &resource.ResourceConfig{
-			MemoryMax:  context.String("memoryMax"),
-			MemoryHigh: context.String("memoryHigh"),
-			CpuWeight:  context.String("cpuWeight"),
-			CpuSetCpus: context.String("cpuSetCpus"),
-		}
-		Run(tty, cmdArray, resConf)
+		// resConf := &resource.ResourceConfig{
+		// 	MemoryMax:  context.String("memoryMax"),
+		// 	MemoryHigh: context.String("memoryHigh"),
+		// 	CpuWeight:  context.String("cpuWeight"),
+		// 	CpuSetCpus: context.String("cpuSetCpus"),
+		// }
+		Run(tty, cmdArray)
 		return nil
 	},
 }
@@ -43,9 +43,7 @@ var initCommand = cli.Command{
 	Usage: "Init container process run user's process in container. Do not call it outside",
 	Action: func(context *cli.Context) error {
 		log.Infof("init come on")
-		cmd := context.Args().Get(0)
-		log.Infof("command %s", cmd)
-		err := container.RunContainerInitProcess(cmd, nil)
+		err := container.RunContainerInitProcess()
 		return err
 	},
 }

@@ -1,8 +1,6 @@
 package main
 
 import (
-	cgroups "mydocker/cgroups2"
-	"mydocker/cgroups2/resource"
 	"mydocker/container"
 	"os"
 	"strings"
@@ -10,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func Run(tty bool, comArray []string, res *resource.ResourceConfig) {
+func Run(tty bool, comArray []string) {
 	parent, writePipe := container.NewParentProcess(tty)
 	if parent == nil {
 		log.Errorf("New parent process error")
@@ -20,10 +18,6 @@ func Run(tty bool, comArray []string, res *resource.ResourceConfig) {
 	if err := parent.Start(); err != nil {
 		log.Error(err)
 	}
-
-	cgroupManager := cgroups.NewCgroupManager("cgroup")
-	defer cgroupManager.Destroy()
-	cgroupManager.Apply(parent.Process.Pid)
 	sendInitCommand(comArray, writePipe)
 	parent.Wait()
 	os.Exit(0)
