@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func Run(tty bool, comArray []string) {
+func Run(tty bool, comArray []string, volume string) {
 	parent, writePipe := container.NewParentProcess(tty)
 	if parent == nil {
 		log.Errorf("New parent process error")
@@ -20,6 +20,9 @@ func Run(tty bool, comArray []string) {
 	}
 	sendInitCommand(comArray, writePipe)
 	parent.Wait()
+	mntURL := "/root/mnt"
+	rootURL := "/root"
+	container.DeleteWorkSpace(rootURL, mntURL, volume)
 	os.Exit(0)
 }
 

@@ -9,6 +9,19 @@ import (
 	"github.com/urfave/cli"
 )
 
+var commitCommand = cli.Command{
+	Name:  "commit",
+	Usage: "commit a container into image",
+	Action: func(context *cli.Context) error {
+		if len(context.Args()) < 1 {
+			return fmt.Errorf("Missing container name")
+		}
+		imageName := context.Args().Get(0)
+		commitContainer(imageName)
+		return nil
+	},
+}
+
 var runCommand = cli.Command{
 	Name:  "run",
 	Usage: `Create a container with namespace and cgroups limit mydocker run -ti [command]`,
@@ -16,6 +29,10 @@ var runCommand = cli.Command{
 		cli.BoolFlag{
 			Name:  "ti",
 			Usage: "enable tty",
+		},
+		cli.StringFlag{
+			Name:  "v",
+			Usage: "volume",
 		},
 	},
 	Action: func(context *cli.Context) error {
@@ -33,7 +50,8 @@ var runCommand = cli.Command{
 		// 	CpuWeight:  context.String("cpuWeight"),
 		// 	CpuSetCpus: context.String("cpuSetCpus"),
 		// }
-		Run(tty, cmdArray)
+		volume := context.String("v")
+		Run(tty, cmdArray, volume)
 		return nil
 	},
 }
