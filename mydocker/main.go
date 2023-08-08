@@ -19,6 +19,11 @@ func main() {
 	app.Commands = []cli.Command{
 		initCommand,
 		runCommand,
+		commitCommand,
+		logCommand,
+		execCommand,
+		stopCommand,
+		removeCommand,
 	}
 
 	app.Before = func(ctx *cli.Context) error {
