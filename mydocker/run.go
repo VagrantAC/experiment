@@ -7,6 +7,7 @@ import (
 	cgroups "mydocker/cgroups2"
 	"mydocker/cgroups2/resource"
 	"mydocker/container"
+	"mydocker/network"
 	"os"
 	"strconv"
 	"strings"
@@ -15,7 +16,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func Run(tty bool, comArray []string, volume string, resConfig *resource.ResourceConfig, containerName, imageName string, envSlice []string) {
+func Run(tty bool, comArray []string, volume string, resConfig *resource.ResourceConfig, containerName, imageName string, envSlice []string, nw string, portmapping []string) {
 	containerID := randStringBytes(10)
 	if containerName == "" {
 		containerName = containerID
@@ -40,6 +41,21 @@ func Run(tty bool, comArray []string, volume string, resConfig *resource.Resourc
 	defer cgroupManager.Destroy()
 	cgroupManager.Set(resConfig)
 	cgroupManager.Apply(parent.Process.Pid)
+
+	if nw != "" {
+		network.Init()
+		containerInfo := &container.ContainerInfo{
+			Id:          containerID,
+			Pid:         strconv.Itoa(parent.Process.Pid),
+			Name:        containerName,
+			PortMapping: portmapping,
+		}
+		if err := network.Connect(nw, containerInfo); err != nil {
+			log.Errorf("Error Connect Network %v", err)
+			return
+		}
+	}
+
 	sendInitCommand(comArray, writePipe)
 	if tty {
 		parent.Wait()
