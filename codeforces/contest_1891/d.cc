@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 using namespace std;
+
 typedef long long ll;
 const ll mod = 1e9 + 7;
 ll getSum(ll b, ll a) {
@@ -39,14 +40,12 @@ ll solveg(ll f, ll l, ll r) {
   ll n = getSum(f, r);
   ll minn = l;
 
-  cout << " f:" << f << " " << l << " " << r << " " << n << endl;
   for (ll i = getSum(f, l) - 1; i < n; i++) {
     ll maxx = i + 1 == n ? r + 1 : qpowNoMod(f, i + 1);
     sum += (((maxx - minn + mod)) % mod) * i;
     sum %= mod;
     minn = maxx;
   }
-  cout << "solveg" << sum << endl;
   return sum;
 }
 
@@ -61,7 +60,6 @@ ll solvef(ll ans) {
     sum = (sum % mod + mod) % mod;
     minn = maxx;
   }
-  std::cout << sum << endl;
   return sum;
 }
 
