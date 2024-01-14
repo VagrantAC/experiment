@@ -49,6 +49,11 @@ class Ui_Widget(object):
         self.btnThreshold.setGeometry(QRect(490, 300, 100, 32))
 
         self.retranslateUi(Widget)
+        self.btnCapture.clicked.connect(Widget.btnCapture_Clicked)
+        self.btnOpenCamera.clicked.connect(Widget.btnOpenCamera_Clicked)
+        self.btnReadImage.clicked.connect(Widget.btnReadImage_Clicked)
+        self.btnGray.clicked.connect(Widget.btnGray_Clicked)
+        self.btnThreshold.clicked.connect(Widget.btnThreshold_Clicked)
 
         QMetaObject.connectSlotsByName(Widget)
     # setupUi

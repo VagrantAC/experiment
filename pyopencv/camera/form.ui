@@ -119,5 +119,93 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>btnCapture</sender>
+   <signal>clicked()</signal>
+   <receiver>Widget</receiver>
+   <slot>btnCapture_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>183</x>
+     <y>316</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>183</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnOpenCamera</sender>
+   <signal>clicked()</signal>
+   <receiver>Widget</receiver>
+   <slot>btnOpenCamera_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>66</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>67</x>
+     <y>333</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnReadImage</sender>
+   <signal>clicked()</signal>
+   <receiver>Widget</receiver>
+   <slot>btnReadImage_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>301</x>
+     <y>329</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>302</x>
+     <y>347</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnGray</sender>
+   <signal>clicked()</signal>
+   <receiver>Widget</receiver>
+   <slot>btnGray_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>422</x>
+     <y>321</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>424</x>
+     <y>356</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnThreshold</sender>
+   <signal>clicked()</signal>
+   <receiver>Widget</receiver>
+   <slot>btnThreshold_Clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>537</x>
+     <y>320</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>538</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>btnOpenCamera_Clicked()</slot>
+  <slot>btnCapture_Clicked()</slot>
+  <slot>btnReadImage_Clicked()</slot>
+  <slot>btnGray_Clicked()</slot>
+  <slot>btnThreshold_Clicked()</slot>
+ </slots>
 </ui>

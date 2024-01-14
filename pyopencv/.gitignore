@@ -1,3 +1,5 @@
 .venv
 # static
 **/.DS_Store
+
+camera/venv/
